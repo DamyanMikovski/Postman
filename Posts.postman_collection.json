@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "b565216d-e4c2-4fcf-a6d7-2056c07f6acf",
+		"name": "Posts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get public posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"caption is HIIIII\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"HIIIII\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"id\": 685,\r\n    \"caption\": \"Moon\",\r\n    \"coverUrl\": \"https://i.imgur.com/zY7dp6C.gif\",\r\n    \"postStatus\": \"public\",\r\n    \"commentsCount\": 1,\r\n    \"likesCount\": 1,\r\n    \"createdAt\": \"2020-06-24T15:18:08.464Z\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "http://161.35.202.130:3100/posts/public/?take=2&skip=1",
+					"protocol": "http",
+					"host": [
+						"161",
+						"35",
+						"202",
+						"130"
+					],
+					"port": "3100",
+					"path": [
+						"posts",
+						"public",
+						""
+					],
+					"query": [
+						{
+							"key": "take",
+							"value": "2",
+							"description": "take"
+						},
+						{
+							"key": "skip",
+							"value": "1",
+							"description": "skip"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Followers posts successfully retrieved",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/posts/feed?type=1&take=1&skip=1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"posts",
+						"feed"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "1"
+						},
+						{
+							"key": "take",
+							"value": "1"
+						},
+						{
+							"key": "skip",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{GlobalToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"caption\": \"HIIIII\",\r\n    \"coverUrl\": \"https://i.imgur.com/X4fQx4l.jpg\",\r\n    \"postStatus\": \"public\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{GlobalToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"action\": \"likePost\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3508",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3508"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get/posts/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3508",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3508"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjp0cnVlLCJpYXQiOjE2MTQ3NjIwODUsImV4cCI6MTYxNDc2NTY4NX0.Zchs1ZQXx8fggHS0alu73bO5J9RufRfqZihg9fHQnQE",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"caption\": \"BY\",\r\n  \"postStatus\": \"public\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3505",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3505"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjp0cnVlLCJpYXQiOjE2MTQ3NjIwODUsImV4cCI6MTYxNDc2NTY4NX0.Zchs1ZQXx8fggHS0alu73bO5J9RufRfqZihg9fHQnQE",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

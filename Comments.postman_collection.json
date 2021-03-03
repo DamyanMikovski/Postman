@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "e6e57a01-9153-4dd2-ba0d-040962f10d92",
+		"name": "Comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Comments successfully received",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"content\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3508/comments?postId=1",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3508",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "postId",
+							"value": "1",
+							"description": "3473"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete comment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3508/comments/634",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3508",
+						"comments",
+						"634"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create comment on post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if comment content good job\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"good job\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"content\": \"good job\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/posts/3508/comment",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"posts",
+						"3508",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0NzAxODI1LCJleHAiOjE2MTQ3MDU0MjV9.wV9JAigpmklH09ccew6VfqO9ret9GjjM6xu9OKMYRXU",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

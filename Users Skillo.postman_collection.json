@@ -1,0 +1,543 @@
+{
+	"info": {
+		"_postman_id": "e0afc2e5-4b61-4b6f-8023-b67f0cc9611d",
+		"name": "Users Skillo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"DamyanM4\",\r\n  \"email\": \"damyanM4@abv.bg\",\r\n  \"birthDate\": \"12.22.1985\",\r\n  \"password\": \"Skillo01\",\r\n  \"publicInfo\": \"info alabala\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/users",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user with user name that allready in use",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Username taken\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Username taken\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"DamyanM4\",\r\n  \"email\": \"damyanM5@abv.bg\",\r\n  \"birthDate\": \"12.22.1985\",\r\n  \"password\": \"Skillo01\",\r\n  \"publicInfo\": \"Hi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login With valid credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"set Token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"   pm.environment.set(\"Token\", \"jsonData.Token\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0NzYxLCJleHAiOjE2MTQ3OTgzNjF9.SPyQsmXSwcRS72ncauHzApVg5ee73rTjRPLl_RqKo1w",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{GlobalToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\r\n{\r\n  \"usernameOrEmail\": \"DamyanM3\",\r\n  \"password\": \"Skillo01\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://161.35.202.130:3100/users/login",
+					"protocol": "http",
+					"host": [
+						"161",
+						"35",
+						"202",
+						"130"
+					],
+					"port": "3100",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with wrong username and password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Check that response massege is invalid password\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Ivalid password\");\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"usernameOrEmail\": \"Damyan\",\r\n  \"password\": \"Skillo01\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/users/login",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by iD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 685,\r\n  \"username\": \"damyanM3\",\r\n  \"email\": \"Skillo01@abv.bg\",\r\n  \"publicInfo\": \"nfo alabala\",\r\n  \"profilePicUrl\": \"https://i.imgur.com/u62Rlx8.jpg\",\r\n  \"followers\": {\r\n    \"id\": 149,\r\n    \"username\": \"studenttest\",\r\n    \"profilePicUrl\": \"https://i.imgur.com/u62Rlx8.jpg\"\r\n  },\r\n  \"following\": {\r\n    \"id\": 149,\r\n    \"username\": \"studenttest\",\r\n    \"profilePicUrl\": \"https://i.imgur.com/u62Rlx8.jpg\"\r\n  },\r\n  \"followersCount\": 1,\r\n  \"followingCount\": 1,\r\n  \"liked\": [\r\n    {\r\n      \"id\": 263,\r\n      \"caption\": \"Matrix\",\r\n      \"coverUrl\": \"https://i.imgur.com/zY7dp6C.gif\",\r\n      \"postStatus\": \"private\",\r\n      \"commentsCount\": 1,\r\n      \"likesCount\": 1,\r\n      \"createdAt\": \"2020-06-24T15:18:08.464Z\"\r\n    }\r\n  ],\r\n  \"postsCount\": 2,\r\n  \"roles\": [\r\n    {\r\n      \"id\": \"2\",\r\n      \"role\": 1\r\n    }\r\n  ],\r\n  \"isBanned\": false,\r\n  \"description\": \"no desc\",\r\n  \"isDeleted\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://161.35.202.130:3100/users/670",
+					"protocol": "http",
+					"host": [
+						"161",
+						"35",
+						"202",
+						"130"
+					],
+					"port": "3100",
+					"path": [
+						"users",
+						"670"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Follow User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"action\": \"followUser\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/users/673",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users",
+						"673"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0NjA5MzQ3LCJleHAiOjE2MTQ2MTI5NDd9.d0_0nZZTwo4SVIM7EpfduB0wpf6A_NdrQIu0XviprVM",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{GlobalToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{GlobalURL}}/users/logout",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ban status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{GlobalToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"isBanned\": true,\r\n  \"description\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/users/685/banstatus",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users",
+						"685",
+						"banstatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User successfully retrieved",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njc4LCJ1c2VybmFtZSI6ImRhbXlhbk0zIiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0Nzk0ODUxLCJleHAiOjE2MTQ3OTg0NTF9.K_8U5IULrahG0qhTJRbK7DuqBjmrEcp3POD8Qxg1BWA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{GlobalURL}}/users?q=DamyanM4",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "DamyanM4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User successfully updated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 450ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(450);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjp0cnVlLCJpYXQiOjE2MTQ3NjIwODUsImV4cCI6MTYxNDc2NTY4NX0.Zchs1ZQXx8fggHS0alu73bO5J9RufRfqZihg9fHQnQE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"DamyanM4\",\r\n  \"email\": \"damyanM4@abv.bg\",\r\n  \"birthDate\": \"12.22.1985\",\r\n  \"password\": \"DamyanM4\",\r\n  \"publicInfo\": \"new public info\",\r\n  \"profilePicUrl\": \"https://i.imgur.com/X4fQx4l.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{GlobalURL}}/users",
+					"host": [
+						"{{GlobalURL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njg1LCJ1c2VybmFtZSI6IkRhbXlhbk00Iiwicm9sZXMiOlt7ImlkIjoyLCJyb2xlIjoxfV0sImlzQmFubmVkIjpmYWxzZSwiaWF0IjoxNjE0NzAxODI1LCJleHAiOjE2MTQ3MDU0MjV9.wV9JAigpmklH09ccew6VfqO9ret9GjjM6xu9OKMYRXU",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
