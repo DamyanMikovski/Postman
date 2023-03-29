@@ -420,7 +420,7 @@
 							"    pm.expect(response.list).to.eql(pm.collectionVariables.get(\"DoneListId\"));\r",
 							"})\r",
 							"\r",
-							"pm.test(\"Verify that the name of the card is still Learn Postman\", function(){\r",
+							"pm.test(\"Verify that the name of the card is the same\", function(){\r",
 							"    pm.expect(response.name).to.eql(\"Learn Postman\")\r",
 							"});"
 						],
@@ -611,19 +611,19 @@
 		},
 		{
 			"key": "boardID",
-			"value": ""
+			"value": "boardID"
 		},
 		{
 			"key": "toDoListId",
-			"value": ""
+			"value": "toDoListId"
 		},
 		{
 			"key": "boardName",
-			"value": ""
+			"value": "boardName"
 		},
 		{
 			"key": "DoneListId",
-			"value": ""
+			"value": "DoneListId"
 		}
 	]
 }
