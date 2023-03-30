@@ -13,7 +13,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();\r",
+							"\r",
 							"let boardName = \"My Board \" + parseInt(Math.random() * 100);\r",
 							"pm.environment.set(\"boardName\", boardName);\r",
 							"\r",
@@ -153,7 +153,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -199,7 +199,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -307,7 +307,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -354,7 +354,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -444,7 +444,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -509,7 +509,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"console.clear();"
+							""
 						],
 						"type": "text/javascript"
 					}
