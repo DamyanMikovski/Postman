@@ -9,8 +9,9 @@ Cmd command to run Jenkins Localhost:
   -java -jar jenkins.war --httpPort=8080
 
 Jenkins - Settings/
-Build Steps: in his step the user should write commands to be executed from the drop-down menu Execute Windows batch command type should be selected
-Inportant: Junit Report will be available if the following commands are in one line
+ -Build Steps: in his step the user should write commands to be executed from the drop-down menu Execute Windows batch command type should be selected
+ -Inportant: Junit Report will be available if the following commands are in one line
+ 
  newman run "Trello API.postman_collection.json" --environment "TestEnvironment.postman_environment.json" --disable-unicode --reporters cli,junit,html --reporter-junit-export "newman/report.xml"
  
  Post Buld Actions:
