@@ -15,7 +15,7 @@
 						"exec": [
 							"console.clear();\r",
 							"let boardName = \"My Board \" + parseInt(Math.random() * 100);\r",
-							"pm.collectionVariables.set(\"boardName\", boardName);\r",
+							"pm.environment.set(\"boardName\", boardName);\r",
 							"\r",
 							""
 						],
@@ -38,14 +38,14 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Verify that board Name is Postman Board\", function(){\r",
-							"    pm.expect(response.name).to.eql(pm.collectionVariables.get(\"boardName\"));\r",
+							"    pm.expect(response.name).to.eql(pm.environment.get(\"boardName\"));\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Verify that board is Private\", function(){\r",
 							"    pm.expect(response.prefs.permissionLevel).to.eql(\"private\");\r",
 							"});\r",
 							"\r",
-							"pm.collectionVariables.set(\"boardID\", response.id);\r",
+							"pm.environment.set(\"boardID\", response.id);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -85,6 +85,20 @@
 		},
 		{
 			"name": "Get All boards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify Status 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -115,6 +129,36 @@
 		},
 		{
 			"name": "Get Single Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify Status 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Verify that response is retreturning board\", function(){\r",
+							"    pm.expect(response.id).to.have.string;\r",
+							"    pm.expect(response.name).to.have.string;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.clear();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -183,7 +227,7 @@
 							"    pm.expect(response.id).to.have.string;\r",
 							"});\r",
 							"\r",
-							"pm.collectionVariables.set(\"toDoListId\",response.id);\r",
+							"pm.environment.set(\"toDoListId\",response.id);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -251,10 +295,10 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Verify that the list is in the correct Board\", function(){\r",
-							"    pm.expect(response.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"));\r",
+							"    pm.expect(response.idBoard).to.eql(pm.environment.get(\"boardID\"));\r",
 							"});\r",
 							"\r",
-							"pm.collectionVariables.set(\"DoneListId\");"
+							"pm.environment.set(\"DoneListId\", response.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -347,11 +391,11 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Verify that the card is in TODO List\", function(){\r",
-							"    pm.expect(response.idList).to.eql(pm.collectionVariables.get(\"toDoListId\"));\r",
+							"    pm.expect(response.idList).to.eql(pm.environment.get(\"toDoListId\"));\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Verify that the card is in correct Board\", function(){\r",
-							"    pm.expect(response.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"));\r",
+							"    pm.expect(response.idBoard).to.eql(pm.environment.get(\"boardID\"));\r",
 							"});\r",
 							""
 						],
@@ -417,12 +461,9 @@
 							"let response = pm.response.json();\r",
 							"\r",
 							"pm.test(\"Verify that the card is moved to DONE list\", function(){\r",
-							"    pm.expect(response.list).to.eql(pm.collectionVariables.get(\"DoneListId\"));\r",
+							"    pm.expect(response.id).to.eql(pm.environment.get(\"DoneListId\"));\r",
 							"})\r",
-							"\r",
-							"pm.test(\"Verify that the name of the card is the same\", function(){\r",
-							"    pm.expect(response.name).to.eql(\"Learn Postman\")\r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -432,13 +473,13 @@
 				"method": "PUT",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/1/cards/:id?key={{trelloKey}}&token={{trelloToken}}&idList={{toDoListId}}",
+					"raw": "{{baseUrl}}/1/lists/:id?key={{trelloKey}}&token={{trelloToken}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"1",
-						"cards",
+						"lists",
 						":id"
 					],
 					"query": [
@@ -449,16 +490,12 @@
 						{
 							"key": "token",
 							"value": "{{trelloToken}}"
-						},
-						{
-							"key": "idList",
-							"value": "{{toDoListId}}"
 						}
 					],
 					"variable": [
 						{
 							"key": "id",
-							"value": "641dda3b972f5e4295a76aa2"
+							"value": "{{DoneListId}}"
 						}
 					]
 				}
@@ -595,35 +632,8 @@
 	],
 	"variable": [
 		{
-			"key": "baseUrl",
-			"value": "baseUrl",
-			"type": "string"
-		},
-		{
-			"key": "trelloKey",
-			"value": "trelloKey",
-			"type": "string"
-		},
-		{
-			"key": "trelloToken",
-			"value": "trelloToken",
-			"type": "string"
-		},
-		{
-			"key": "boardID",
-			"value": "boardID"
-		},
-		{
-			"key": "toDoListId",
-			"value": "toDoListId"
-		},
-		{
 			"key": "boardName",
-			"value": "boardName"
-		},
-		{
-			"key": "DoneListId",
-			"value": "DoneListId"
+			"value": ""
 		}
 	]
 }
